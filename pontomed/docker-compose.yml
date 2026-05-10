@@ -23,9 +23,9 @@ services:
       db:
         condition: service_healthy
     environment:
-      DB_URL: ${DB_URL:-jdbc:postgresql://db:5432/pontomed}
-      DB_USERNAME: ${DB_USERNAME:-postgres}
-      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_URL: jdbc:postgresql://db:5432/pontomed
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
     ports:
       - "8080:8080"
     restart: unless-stopped
