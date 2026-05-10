@@ -1,6 +1,3 @@
-FROM ubuntu:latest
-LABEL authors="lucas"
-
 FROM eclipse-temurin:17-jdk-alpine AS builder
 WORKDIR /app
 RUN apk add --no-cache maven
