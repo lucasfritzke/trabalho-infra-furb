@@ -15,21 +15,28 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - pontomed-network
 
   app:
     image: lucasfritzke/ponto-med:latest
-    pull_policy: always
     container_name: pontomed-app
     depends_on:
       db:
         condition: service_healthy
     environment:
-      DB_URL: jdbc:postgresql://db:5432/${DB_NAME:-pontomed}
+      DB_URL: ${DB_URL:-jdbc:postgresql://pontomed-db:5432/pontomed}
       DB_USERNAME: ${DB_USERNAME:-postgres}
       DB_PASSWORD: ${DB_PASSWORD:-postgres}
     ports:
       - "8080:8080"
     restart: unless-stopped
+    networks:
+      - pontomed-network
+
+networks:
+  pontomed-network:
+    driver: bridge
 
 volumes:
   postgres_data:
