@@ -63,6 +63,7 @@ jobs:
           path: pontomed/target/surefire-reports/
           retention-days: 3
 
+  # Configure este job como status check obrigatório no GitHub
   quality-gate:
     name: quality-gate
     runs-on: ubuntu-latest
