@@ -17,7 +17,7 @@ services:
       retries: 5
 
   app:
-    image: ${lucasfritzke}/ponto-med:latest
+    image: lucasfritzke/ponto-med:latest
     container_name: pontomed-app
     depends_on:
       db:
