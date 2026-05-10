@@ -2,13 +2,16 @@ name: Java PR Check
 
 on:
   pull_request:
-    branches: [ "main", "develop" ]
+    branches: [ "main" ]
 
 jobs:
 
   build:
     name: Build
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pontomed
 
     steps:
       - name: Baixando repositório
@@ -28,12 +31,15 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ponto-med-jar-pr
-          path: target/*.jar
+          path: pontomed/target/*.jar
           retention-days: 3
 
   test:
     name: Testes Unitários
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pontomed
 
     steps:
       - name: Baixando repositório
@@ -54,7 +60,7 @@ jobs:
         if: always()
         with:
           name: test-results-pr
-          path: target/surefire-reports/
+          path: pontomed/target/surefire-reports/
           retention-days: 3
 
   quality-gate:
@@ -64,4 +70,4 @@ jobs:
 
     steps:
       - name: Pipeline aprovado — PR pode ser mergeado
-        run: echo "Build e testes passaram. PR aprovado para merge."
+        run: echo "✅ Build e testes passaram. PR aprovado para merge."
