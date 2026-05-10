@@ -2,12 +2,15 @@ name: Java CI/CD
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
 
 jobs:
   build:
     name: Build, Test and Publish
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pontomed
 
     steps:
       - name: Baixando repositório
@@ -30,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ponto-med-jar
-          path: target/*.jar
+          path: pontomed/target/*.jar
           retention-days: 7
 
       - name: Login no Docker Hub
@@ -42,8 +45,8 @@ jobs:
       - name: Gerar e publicar imagem no Docker Hub
         uses: docker/build-push-action@v6
         with:
-          context: .
-          file: ./Dockerfile
+          context: ./pontomed
+          file: ./pontomed/Dockerfile
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/ponto-med:latest
