@@ -1,4 +1,4 @@
-name: Java CI/CD
+name: CI/CD
 
 on:
   push:
@@ -7,16 +7,16 @@ on:
     branches: [ "main" ]
 
 env:
-  APP_DIR: pontomed            # diretório raiz do projeto Maven
-  IMAGE_NAME: ponto-med        # nome da imagem no Docker Hub
+  APP_DIR: pontomed            
+  IMAGE_NAME: ponto-med        
 
 jobs:
 
   build:
-    name: Build (Java ${{ matrix.java }})
+    name: "Build — Java ${{ matrix.java }}"
     runs-on: ubuntu-latest
 
-
+    # matrix de versões
     strategy:
       matrix:
         java: [ 17, 21 ]
@@ -26,7 +26,7 @@ jobs:
         working-directory: ${{ env.APP_DIR }}
 
     steps:
-      - name: "Checkout do repositório"
+      - name: "⬇️ Checkout do repositório"
         uses: actions/checkout@v4
 
       - name: "Configurar Java ${{ matrix.java }}"
@@ -36,17 +36,18 @@ jobs:
           distribution: temurin
           cache: maven
 
-      - name: "Verificar secret de conexão (sem expor o valor)"
+      # (simulação: DB_CONNECTION_STRING é um secret fictício)
+      - name: " Verificar secret de conexão (sem expor o valor)"
         env:
           DB_CONNECTION_STRING: ${{ secrets.DB_CONNECTION_STRING }}
         run: |
           if [ -z "$DB_CONNECTION_STRING" ]; then
-            echo "Secret DB_CONNECTION_STRING não configurado (aceitável em forks)."
+            echo "  Secret DB_CONNECTION_STRING não configurado (aceitável em forks)."
           else
-            echo "Secret DB_CONNECTION_STRING presente."
+            echo "✅ Secret DB_CONNECTION_STRING presente."
           fi
 
-      - name: "Build (sem testes)"
+      - name: " Build (sem testes)"
         run: mvn clean package -DskipTests
 
       - name: "Upload do artefato JAR"
@@ -69,7 +70,7 @@ jobs:
         working-directory: ${{ env.APP_DIR }}
 
     steps:
-      - name: "Checkout do repositório"
+      - name: " Checkout do repositório"
         uses: actions/checkout@v4
 
       - name: "Configurar Java ${{ matrix.java }}"
@@ -79,46 +80,51 @@ jobs:
           distribution: temurin
           cache: maven
 
-      - name: "Executar testes unitários"
+      # TAREFA 3 — executa os testes; pipeline falha se algum quebrar
+      - name: "🧪 Executar testes unitários"
         run: mvn test
 
+      # TAREFA 4 — upload do relatório de testes (sempre, mesmo se falhar)
+      # Permite analisar quais testes quebraram diretamente na aba Actions.
       - name: "Upload do relatório de testes"
         uses: actions/upload-artifact@v4
-        if: always()   # garante upload mesmo quando há falha (T3)
+        if: always()  
         with:
           name: "test-results-java${{ matrix.java }}"
           path: ${{ env.APP_DIR }}/target/surefire-reports/
           retention-days: 7
 
+
+
   quality-gate:
     name: quality-gate
     runs-on: ubuntu-latest
-    needs: [ build, test ]   # TAREFA 8 — depende dos dois jobs paralelos
+    needs: [ build, test ]   
 
     steps:
-      - name: "Quality Gate — build e testes aprovados"
+      - name: "✅ Quality Gate — build e testes aprovados"
         run: |
           echo "Build e testes passaram em todas as versões da matrix."
           echo "PR aprovado para merge na main."
 
 
   docker:
-    name: "Publicar no Docker Hub"
+    name: " Publicar no Docker Hub"
     runs-on: ubuntu-latest
-    needs: [ quality-gate ]
+    needs: [ quality-gate ]  
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
-      - name: "Checkout do repositório"
+      - name: " Checkout do repositório"
         uses: actions/checkout@v4
 
-      - name: "Login no Docker Hub"
+      - name: " Login no Docker Hub"
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: "Build e push da imagem"
+      - name: " Build e push da imagem"
         uses: docker/build-push-action@v6
         with:
           context: ./${{ env.APP_DIR }}
