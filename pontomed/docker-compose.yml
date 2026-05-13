@@ -3,9 +3,9 @@ services:
     image: postgres:16-alpine
     container_name: pontomed-db
     environment:
-      POSTGRES_DB: ${DB_NAME:-pontomed}
-      POSTGRES_USER: ${DB_USERNAME:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
@@ -15,8 +15,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    networks:
-      - pontomed-network
 
   app:
     image: lucasfritzke/ponto-med:latest
@@ -25,18 +23,12 @@ services:
       db:
         condition: service_healthy
     environment:
-      DB_URL: ${DB_URL:-jdbc:postgresql://pontomed-db:5432/pontomed}
-      DB_USERNAME: ${DB_USERNAME:-postgres}
-      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_URL: ${DB_URL}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
     ports:
       - "8080:8080"
     restart: unless-stopped
-    networks:
-      - pontomed-network
-
-networks:
-  pontomed-network:
-    driver: bridge
 
 volumes:
   postgres_data:

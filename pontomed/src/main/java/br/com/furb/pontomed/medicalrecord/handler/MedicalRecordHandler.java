@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/medical-records")
 public class MedicalRecordHandler {
 
     private final MedicalRecordService service;
@@ -19,36 +19,36 @@ public class MedicalRecordHandler {
         this.service = service;
     }
 
-    @PostMapping("/patients/{patientId}/records")
+    @PostMapping("/patient/{patientId}")
     public ResponseEntity<MedicalRecord> create(
             @PathVariable Long patientId,
             @Valid @RequestBody MedicalRecord record) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.create(patientId, record));
     }
 
-    @GetMapping("/records")
+    @GetMapping
     public ResponseEntity<List<MedicalRecord>> findAll() {
         return ResponseEntity.ok(service.findAll());
     }
 
-    @GetMapping("/records/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<MedicalRecord> findById(@PathVariable Long id) {
         return ResponseEntity.ok(service.findById(id));
     }
 
-    @GetMapping("/patients/{patientId}/records")
+    @GetMapping("/patient/{patientId}")
     public ResponseEntity<List<MedicalRecord>> findByPatient(@PathVariable Long patientId) {
         return ResponseEntity.ok(service.findByPatientId(patientId));
     }
 
-    @PutMapping("/records/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<MedicalRecord> update(
             @PathVariable Long id,
             @Valid @RequestBody MedicalRecord record) {
         return ResponseEntity.ok(service.update(id, record));
     }
 
-    @DeleteMapping("/records/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
