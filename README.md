@@ -8,7 +8,7 @@ Trabalho desenvolvido para a disciplina de **Infraestrutura de Tecnologia da Inf
 
 - Lucas Fritzke
 - Rafael Julio Klug
-- Ricardo Klug
+- Ricardo N Klug
 -
 
 
