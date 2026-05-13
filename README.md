@@ -200,6 +200,10 @@ DB_NAME=
 1. O que acontece se um teste falhar propositalmente?
 
     Se um teste falhar, o comando `mvn test` retorna erro e o job de testes falha. No workflow atual, isso interrompe a validação do pipeline e impede que o PR siga para merge ou que o job de CD seja executado.
+    
+    ![Imagem da tarefa 1](assets/imagem.png)
+    
+    <img width="2524" height="1166" alt="Captura de tela 2026-05-13 152341" src="https://github.com/user-attachments/assets/1e8df4f9-e49f-46ca-aadc-8c22e98bf22e" />
 
 2. Em que cenário real a publicação de artefatos seria útil?
 
