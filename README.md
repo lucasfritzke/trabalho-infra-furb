@@ -16,10 +16,6 @@ O PontoMed é um sistema web de prontuário médico desenvolvido em Java com Spr
 -Rafael Julio Klug
 -Ricardo Nilson Klug
 
-## Docker Compose
-
-[Acesse o arquivo docker-compose.yml do projeto](pontomed/docker-compose.yml)
-
 ## Stack
 
 - **Linguagem:** Java 17
@@ -148,7 +144,7 @@ curl -X POST http://localhost:8080/api/patients/1/records \
 ## Como executar
 
 ### Com Docker Compose
-Link para baixar Docker Compose:https://docs.docker.com/compose/
+[Acesse o arquivo docker-compose.yml do projeto](pontomed/docker-compose.yml)
 
 ```bash
 docker compose up
@@ -198,25 +194,6 @@ DB_USERNAME=
 DB_PASSWORD=
 DB_NAME=
 ```
-
-## Imagem Docker
-
-<!-- Adicionar link após primeiro push na main -->
-`docker pull <DOCKERHUB_USERNAME>/pontomed:latest`
-
-## Guia de contribuição e estilo
-
-- Crie uma branch a partir de `develop` para novas alterações.
-- Abra Pull Request para `main` somente quando `mvn test` estiver passando.
-- Mantenha os nomes de classes, métodos e endpoints consistentes com o padrão já usado no projeto.
-- Prefira mudanças pequenas e objetivas, especialmente em handlers, services e repositories.
-- Antes de enviar, valide localmente com `./mvnw test` ou `mvnw.cmd test` no Windows.
-
-## Licença e contato
-
-Este repositório não possui licença explícita cadastrada no momento. Caso o grupo adote uma licença depois, esta seção deve ser atualizada.
-
-Contato do projeto: integrantes listados no início deste README.
 
 ## Respostas para o relatório CI/CD
 
