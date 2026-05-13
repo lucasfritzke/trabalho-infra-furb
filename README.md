@@ -16,8 +16,9 @@ O PontoMed é um sistema web de prontuário médico desenvolvido em Java com Spr
 -Rafael Julio Klug
 -Ricardo Nilson Klug
 
+## Docker Compose
 
-
+[Acesse o arquivo docker-compose.yml do projeto](pontomed/docker-compose.yml)
 
 ## Stack
 
@@ -156,8 +157,6 @@ docker compose up
 A aplicação ficará disponível em `http://localhost:8080`.
 
 
-
-Se quiser executar apenas a suíte de testes do Maven sem subir a aplicação, esse é o comando recomendado para validar a base antes de abrir PR.
 
 ## Variáveis de ambiente
 
