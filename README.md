@@ -6,8 +6,8 @@ Trabalho desenvolvido para a disciplina de **Infraestrutura de Tecnologia da Inf
 
 ## Integrantes
 
--
--
+- Lucas Fritzke
+- Rafael Julio Klug
 -
 -
 
@@ -91,3 +91,12 @@ mvn spring-boot:run
 
 <!-- Adicionar link após primeiro push na main -->
 `docker pull <DOCKERHUB_USERNAME>/pontomed:latest`
+
+## Tarefa 03: Execução Automática de Testes
+
+Teste falhando proposiltamente:
+<img width="2524" height="1166" alt="Captura de tela 2026-05-13 152341" src="https://github.com/user-attachments/assets/1e8df4f9-e49f-46ca-aadc-8c22e98bf22e" />
+
+Reversão teste funcionando novamente:
+<img width="2524" height="1160" alt="Captura de tela 2026-05-13 152634" src="https://github.com/user-attachments/assets/36b38cb7-17f8-4d8f-beb6-aa3b74149b59" />
+
