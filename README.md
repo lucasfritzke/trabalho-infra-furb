@@ -16,10 +16,7 @@ O PontoMed é um sistema web de prontuário médico desenvolvido em Java com Spr
 -Rafael Julio Klug
 -Ricardo Nilson Klug
 
-## Imagem Docker
 
-<!-- Adicionar link após primeiro push na main -->
-`docker pull <DOCKERHUB_USERNAME>/pontomed:latest`
 
 
 ## Stack
@@ -150,34 +147,15 @@ curl -X POST http://localhost:8080/api/patients/1/records \
 ## Como executar
 
 ### Com Docker Compose
+Link para baixar Docker Compose:https://docs.docker.com/compose/
 
 ```bash
-docker compose up --build
+docker compose up
 ```
 
 A aplicação ficará disponível em `http://localhost:8080`.
 
-### Localmente
 
-Requisitos: Java 17+, Maven, PostgreSQL rodando na porta 5432.
-
-```bash
-mvn spring-boot:run
-```
-
-## Como rodar testes
-
-O projeto possui 5 testes unitários atualmente, todos focados no serviço de prontuários.
-
-```bash
-./mvnw test
-```
-
-No Windows, você também pode usar:
-
-```bat
-mvnw.cmd test
-```
 
 Se quiser executar apenas a suíte de testes do Maven sem subir a aplicação, esse é o comando recomendado para validar a base antes de abrir PR.
 
@@ -185,7 +163,7 @@ Se quiser executar apenas a suíte de testes do Maven sem subir a aplicação, e
 
 | Variável      | Padrão                              |
 |---------------|-------------------------------------|
-| `DB_URL`      | `jdbc:postgresql://db:5432/pontomed` (Docker) / `jdbc:postgresql://localhost:5432/pontomed` (local)
+| `DB_URL`      | `jdbc:postgresql://localhost:5432/pontomed`
 | `DB_USERNAME` | `postgres`                          |
 | `DB_PASSWORD` | `postgres`                          |
 | `DB_NAME`     | `pontomed`                          |
