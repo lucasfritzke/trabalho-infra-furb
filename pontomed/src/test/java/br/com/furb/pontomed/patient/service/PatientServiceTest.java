@@ -30,8 +30,8 @@ class PatientServiceTest {
 
     @BeforeEach
     void setUp() {
-        patient = new Patient("Rafa Silva", "12345678900",
-                LocalDate.of(1995, 3, 10), "rafa@email.com", "47999990000");
+        patient = new Patient("Rafael Klug", "12345678900",
+                LocalDate.of(1995, 3, 10), "rafaeljulioklug@gmail.com", "47999999999");
         patient.setId(1L);
     }
 
@@ -63,8 +63,8 @@ class PatientServiceTest {
     @Test
     @DisplayName("Deve retornar lista de todos os pacientes")
     void deveRetornarTodosOsPacientes() {
-        Patient outro = new Patient("Maria Lima", "99988877766",
-                LocalDate.of(1988, 6, 20), "maria@email.com", "47988880000");
+        Patient outro = new Patient("Ricardo", "99988877766",
+                LocalDate.of(1988, 6, 20), "rick@gmail.com", "47988880000");
         outro.setId(2L);
 
         when(repository.findAll()).thenReturn(List.of(patient, outro));
@@ -72,7 +72,7 @@ class PatientServiceTest {
         List<Patient> result = service.findAll();
 
         assertThat(result).hasSize(2);
-        assertThat(result.get(0).getName()).isEqualTo("Rafa Silva");
+        assertThat(result.get(0).getName()).isEqualTo("Rafael Klug");
     }
 
     @Test
@@ -104,7 +104,7 @@ class PatientServiceTest {
         Patient result = service.findByCpf("12345678900");
 
         assertThat(result).isNotNull();
-        assertThat(result.getName()).isEqualTo("Rafa Silva");
+        assertThat(result.getName()).isEqualTo("Rafael Klug");
     }
 
     @Test
@@ -120,16 +120,16 @@ class PatientServiceTest {
     @Test
     @DisplayName("Deve atualizar dados do paciente com sucesso")
     void deveAtualizarPaciente() {
-        Patient dadosAtualizados = new Patient("Rafa S. Oliveira", "12345678900",
-                LocalDate.of(1995, 3, 10), "novo@email.com", "47911110000");
+        Patient dadosAtualizados = new Patient("Rafael Julio Klug", "12345678900",
+                LocalDate.of(1995, 3, 10), "rafa.klug@gmail.com", "47911110000");
 
         when(repository.findById(1L)).thenReturn(Optional.of(patient));
         when(repository.save(patient)).thenReturn(patient);
 
         Patient result = service.update(1L, dadosAtualizados);
 
-        assertThat(result.getName()).isEqualTo("Rafa S. Oliveira");
-        assertThat(result.getEmail()).isEqualTo("novo@email.com");
+        assertThat(result.getName()).isEqualTo("Rafael Julio Klug");
+        assertThat(result.getEmail()).isEqualTo("rafa.klug@gmail.com");
         verify(repository, times(1)).save(patient);
     }
 
