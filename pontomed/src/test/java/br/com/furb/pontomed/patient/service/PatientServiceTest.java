@@ -44,7 +44,7 @@ class PatientServiceTest {
         Patient result = service.create(patient);
 
         assertThat(result).isNotNull();
-        assertThat(result.getName()).isEqualTo("Rafa Silva");
+        assertThat(result.getName()).isEqualTo("Rafael Klug");
         verify(repository, times(1)).save(patient);
     }
 
