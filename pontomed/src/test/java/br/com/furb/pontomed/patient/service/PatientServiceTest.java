@@ -71,7 +71,7 @@ class PatientServiceTest {
 
         List<Patient> result = service.findAll();
 
-        assertThat(result).hasSize(7);
+        assertThat(result).hasSize(8);
         assertThat(result.get(0).getName()).isEqualTo("Rafael Klug");
     }
 
