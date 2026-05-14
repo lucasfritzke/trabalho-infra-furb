@@ -235,7 +235,11 @@ Reversão teste funcionando novamente:
 
     A matrix serve, portanto, como garantia proativa: caso uma dependência futura introduza incompatibilidade com o Java 21, o pipeline detectará o problema antes que chegue à branch main.
 
+7.
 
+7. Evidência da tarefa 7
+
+    ![Imagem da tarefa 7](<assets/imagem (1).png>)
 
 8. Por que paralelismo importa em pipelines de CI?
 
