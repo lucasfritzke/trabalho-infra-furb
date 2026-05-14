@@ -16,10 +16,6 @@ O PontoMed é um sistema web de prontuário médico desenvolvido em Java com Spr
 -Rafael Julio Klug
 -Ricardo Nilson Klug
 
-## Docker Compose
-
-[Acesse o arquivo docker-compose.yml do projeto](pontomed/docker-compose.yml)
-
 ## Stack
 
 - **Linguagem:** Java 17
@@ -148,7 +144,7 @@ curl -X POST http://localhost:8080/api/patients/1/records \
 ## Como executar
 
 ### Com Docker Compose
-Link para baixar Docker Compose:https://docs.docker.com/compose/
+[Acesse o arquivo docker-compose.yml do projeto](pontomed/docker-compose.yml)
 
 ```bash
 docker compose up
@@ -199,38 +195,21 @@ DB_PASSWORD=
 DB_NAME=
 ```
 
-## Imagem Docker
-
-<!-- Adicionar link após primeiro push na main -->
-`docker pull <DOCKERHUB_USERNAME>/pontomed:latest`
-
-## Guia de contribuição e estilo
-
-- Crie uma branch a partir de `develop` para novas alterações.
-- Abra Pull Request para `main` somente quando `mvn test` estiver passando.
-- Mantenha os nomes de classes, métodos e endpoints consistentes com o padrão já usado no projeto.
-- Prefira mudanças pequenas e objetivas, especialmente em handlers, services e repositories.
-- Antes de enviar, valide localmente com `./mvnw test` ou `mvnw.cmd test` no Windows.
-
-## Licença e contato
-
-Este repositório não possui licença explícita cadastrada no momento. Caso o grupo adote uma licença depois, esta seção deve ser atualizada.
-
-Contato do projeto: integrantes listados no início deste README.
-
 ## Respostas para o relatório CI/CD
 
 1. O que acontece se um teste falhar propositalmente?
 
     Se um teste falhar, o comando `mvn test` retorna erro e o job de testes falha. No workflow atual, isso interrompe a validação do pipeline e impede que o PR siga para merge ou que o job de CD seja executado.
-
+    
+    ![Imagem da tarefa 1](assets/imagem.png)
+    
 2. Em que cenário real a publicação de artefatos seria útil?
 
     A publicação de artefatos é útil para disponibilizar o `.jar` gerado pelo build para download, auditoria, validação manual, distribuição para homologação ou reutilização em ambientes diferentes sem recompilar.
 
-3. Por que nunca devemos commitar credenciais no código?
+3. Se um teste falhar, o que acontece?
 
-    Porque credenciais expostas podem dar acesso indevido ao banco, serviços externos e recursos pagos. O correto é usar secrets do GitHub Actions e variáveis de ambiente, como o `.env` do projeto.
+    Se um teste falhar, o job de testes é interrompido e marcado como falha no Actions, também é bloqueado a execução de jobs dependentes como o quality-gate, se o erro ocorrer dentro do pull request e o sistema impedirá o merge do código.
 
 Teste falhando propositalmente:
 <img width="2524" height="1166" alt="Captura de tela 2026-05-13 152341" src="https://github.com/user-attachments/assets/1e8df4f9-e49f-46ca-aadc-8c22e98bf22e" />
@@ -238,38 +217,28 @@ Teste falhando propositalmente:
 Reversão teste funcionando novamente:
 <img width="2524" height="1160" alt="Captura de tela 2026-05-13 152634" src="https://github.com/user-attachments/assets/36b38cb7-17f8-4d8f-beb6-aa3b74149b59" />
 
-4. Qual versão apresentou alguma diferença de comportamento, se houver?
 
-    O workflow testa Java 17 e Java 21. No estado atual do projeto, não há diferença funcional registrada entre as duas versões para os testes existentes, mas a matriz permite detectar incompatibilidades caso elas apareçam no futuro.
 
-5. Por que paralelismo importa em pipelines de CI?
+5. Por que nunca devemos commitar credenciais no código?
 
-    Porque reduz o tempo total de feedback. No projeto, build e testes rodam em jobs separados e podem ser executados em paralelo, acelerando a validação do código.
+    Porque o histórico do Git é permanente — mesmo que você delete o arquivo depois, a credencial continua acessível via git log. Repositórios públicos expõem isso para qualquer pessoa, e repositórios privados expõem para todos os colaboradores. Bots varrem o GitHub em tempo real procurando exatamente isso.
 
-6. Qual a diferença entre uma tag latest e uma tag por SHA?
 
-    A tag `latest` aponta para a versão mais recente publicada, enquanto a tag por SHA identifica exatamente um commit específico. A tag por SHA é mais rastreável e reproduzível.
 
-7. Quando usar uma tag latest e quando usar uma tag por SHA?
+6. Foram testadas quais versões do Java?
 
-    Use `latest` para facilitar testes rápidos e consumo da versão mais atual. Use a tag por SHA quando precisar de rastreabilidade, rollback, auditoria ou garantia de que a imagem é exatamente aquela gerada por um commit.
+    Foram testadas as versões Java 17 e Java 21 via strategy.matrix. Nenhuma diferença de comportamento foi observada entre as duas versões — todos os builds e testes unitários passaram de forma idêntica em ambas.
 
-8. O que foi desenvolvido no projeto e qual stack foi escolhida?
+    Isso era esperado, pois o código não utiliza nenhuma API removida ou alterada entre o Java 17 e o Java 21. O Spring Boot 4.0.6 é compatível com ambas as versões, assim como o JUnit 5 e o Mockito utilizados nos testes.
 
-    Foi desenvolvido o PontoMed, um sistema de prontuário médico com endpoints para pacientes e prontuários. A stack escolhida foi Java 17, Spring Boot 3.2, PostgreSQL 16, Maven, Docker e GitHub Actions.
+    A matrix serve, portanto, como garantia proativa: caso uma dependência futura introduza incompatibilidade com o Java 21, o pipeline detectará o problema antes que chegue à branch main.
 
-9. Quais são os principais arquivos e a estrutura do repositório?
 
-    Os principais arquivos são `Dockerfile`, `docker-compose.yml`, `pom.xml`, `README.md`, `src/main/java/.../patient`, `src/main/java/.../medicalrecord` e os workflows em `.github/workflows/ci.yml` e `.github/workflows/pr.yml`.
+8. Por que paralelismo importa em pipelines de CI?
 
-10. Como funciona o workflow configurado no GitHub Actions?
+    O paralelismo importa porque reduz drasticamente o tempo de espera, permite a validação rápida em múltiplos ambientes e garante que o fluxo de entrega (CD) só receba códigos que foram validados em paralelo.
 
-    O workflow `ci.yml` é disparado em push em qualquer branch, executa build e testes em matriz de Java 17/21, publica os artefatos do build e, na branch `main`, publica a imagem Docker quando build e testes passam. O workflow `pr.yml` roda em pull requests para `main` e serve como verificação obrigatória antes do merge.
+9. Qual a diferença entre uma tag latest e uma tag por SHA? Quando usar cada uma?
 
-11. O que cada job e step do arquivo YAML faz?
+    Use latest para facilitar testes rápidos e consumo da versão mais atual. Use a tag por SHA quando precisar de rastreabilidade, rollback, auditoria ou garantia de que a imagem é exatamente aquela gerada por um commit.
 
-    No `ci.yml`, o job `build` baixa o repositório, configura Java na matriz 17/21, executa `mvn clean package -DskipTests` e publica o `.jar`. O job `test` faz checkout, configura Java 17/21, executa `mvn test` e salva os relatórios do Surefire. O job `docker` depende de `build` e `test`, roda apenas na `main`, faz login no Docker Hub e publica a imagem com as tags `latest` e `${{ github.sha }}`. No `pr.yml`, os jobs `build` e `test` rodam em PRs para `main` e o job `quality-gate` sinaliza que o PR pode ser aprovado quando tudo passar.
-
-12. Quais foram os aprendizados e dificuldades encontradas no projeto?
-
-    Os principais aprendizados foram estruturar uma aplicação Java com banco de dados, organizar endpoints e alinhar CI/CD com o código. As principais dificuldades costumam estar em configurar o workflow, secrets, banco local, matriz de versões e manter a documentação sincronizada com a implementação.
