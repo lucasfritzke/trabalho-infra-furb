@@ -143,6 +143,10 @@ curl -X POST http://localhost:8080/api/patients/1/records \
 
 ## Como executar
 
+## Link da imagem docker
+
+**https://hub.docker.com/r/lucasfritzke/ponto-med**
+
 ### Com Docker Compose
 [Acesse o arquivo docker-compose.yml do projeto](pontomed/docker-compose.yml)
 
@@ -203,8 +207,6 @@ DB_NAME=
     
     ![Imagem da tarefa 1](assets/imagem.png)
     
-    <img width="2524" height="1166" alt="Captura de tela 2026-05-13 152341" src="https://github.com/user-attachments/assets/1e8df4f9-e49f-46ca-aadc-8c22e98bf22e" />
-
 2. Em que cenário real a publicação de artefatos seria útil?
 
     A publicação de artefatos é útil para disponibilizar o `.jar` gerado pelo build para download, auditoria, validação manual, distribuição para homologação ou reutilização em ambientes diferentes sem recompilar.
@@ -247,14 +249,9 @@ Reversão teste funcionando novamente:
 
     Use latest para facilitar testes rápidos e consumo da versão mais atual. Use a tag por SHA quando precisar de rastreabilidade, rollback, auditoria ou garantia de que a imagem é exatamente aquela gerada por um commit.
 
-10. Como funciona o workflow configurado no GitHub Actions?
+9. Qual a diferença entre uma tag latest e uma tag por SHA? Quando usar cada uma?
 
-    O workflow `ci.yml` é disparado em push em qualquer branch, executa build e testes em matriz de Java 17/21, publica os artefatos do build e, na branch `main`, publica a imagem Docker quando build e testes passam. O workflow `pr.yml` roda em pull requests para `main` e serve como verificação obrigatória antes do merge.
+    Use latest para facilitar testes rápidos e consumo da versão mais atual. Use a tag por SHA quando precisar de rastreabilidade, rollback, auditoria ou garantia de que a imagem é exatamente aquela gerada por um commit.
 
-11. O que cada job e step do arquivo YAML faz?
 
-    No `ci.yml`, o job `build` baixa o repositório, configura Java na matriz 17/21, executa `mvn clean package -DskipTests` e publica o `.jar`. O job `test` faz checkout, configura Java 17/21, executa `mvn test` e salva os relatórios do Surefire. O job `docker` depende de `build` e `test`, roda apenas na `main`, faz login no Docker Hub e publica a imagem com as tags `latest` e `${{ github.sha }}`. No `pr.yml`, os jobs `build` e `test` rodam em PRs para `main` e o job `quality-gate` sinaliza que o PR pode ser aprovado quando tudo passar.
 
-12. Quais foram os aprendizados e dificuldades encontradas no projeto?
-
-    Os principais aprendizados foram estruturar uma aplicação Java com banco de dados, organizar endpoints e alinhar CI/CD com o código. As principais dificuldades costumam estar em configurar o workflow, secrets, banco local, matriz de versões e manter a documentação sincronizada com a implementação.
