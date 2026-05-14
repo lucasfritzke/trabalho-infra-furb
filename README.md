@@ -237,9 +237,7 @@ Reversão teste funcionando novamente:
 
 7.
 
-7. Evidência da tarefa 7
-
-    ![Imagem da tarefa 7](<assets/imagem (1).png>)
+    <img width="2524" height="1160" alt="Imagem da tarefa 7" src="assets/imagem (1).png" />
 
 8. Por que paralelismo importa em pipelines de CI?
 
