@@ -35,7 +35,6 @@ class PatientServiceTest {
         patient.setId(1L);
     }
 
-
     @Test
     @DisplayName("Deve criar paciente com sucesso quando CPF não existe")
     void deveCriarPaciente() {
