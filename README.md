@@ -143,6 +143,10 @@ curl -X POST http://localhost:8080/api/patients/1/records \
 
 ## Como executar
 
+## Link da imagem docker
+
+**https://hub.docker.com/r/lucasfritzke/ponto-med**
+
 ### Com Docker Compose
 [Acesse o arquivo docker-compose.yml do projeto](pontomed/docker-compose.yml)
 
@@ -224,7 +228,6 @@ Reversão teste funcionando novamente:
     Porque o histórico do Git é permanente — mesmo que você delete o arquivo depois, a credencial continua acessível via git log. Repositórios públicos expõem isso para qualquer pessoa, e repositórios privados expõem para todos os colaboradores. Bots varrem o GitHub em tempo real procurando exatamente isso.
 
 
-
 6. Foram testadas quais versões do Java?
 
     Foram testadas as versões Java 17 e Java 21 via strategy.matrix. Nenhuma diferença de comportamento foi observada entre as duas versões — todos os builds e testes unitários passaram de forma idêntica em ambas.
@@ -241,4 +244,6 @@ Reversão teste funcionando novamente:
 9. Qual a diferença entre uma tag latest e uma tag por SHA? Quando usar cada uma?
 
     Use latest para facilitar testes rápidos e consumo da versão mais atual. Use a tag por SHA quando precisar de rastreabilidade, rollback, auditoria ou garantia de que a imagem é exatamente aquela gerada por um commit.
+
+
 
