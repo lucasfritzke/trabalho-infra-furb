@@ -235,8 +235,9 @@ Reversão teste funcionando novamente:
     Isso era esperado, pois o código não utiliza nenhuma API removida ou alterada entre o Java 17 e o Java 21. O Spring Boot 4.0.6 é compatível com ambas as versões, assim como o JUnit 5 e o Mockito utilizados nos testes.
 
     A matrix serve, portanto, como garantia proativa: caso uma dependência futura introduza incompatibilidade com o Java 21, o pipeline detectará o problema antes que chegue à branch main.
-7. 
-<img width="2524" height="1160" alt="Imagem da tarefa 7" src="assets/imagem (1).png" />
+7. Pull Request com Status Check. Painel de configuração
+
+![Configuração](./assets/config.png)
 
 8. Por que paralelismo importa em pipelines de CI?
 
