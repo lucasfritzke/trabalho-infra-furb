@@ -17,7 +17,7 @@ public class PatientService {
 
     public Patient create(Patient patient) {
         if (repository.existsByCpf(patient.getCpf())) {
-            throw new IllegalArgumentException("Já existe um paciente com o CPF: " + patient.getCpf());
+            throw new IllegalArgumentException("Já existe um paciente com o CPF : " + patient.getCpf());
         }
         return repository.save(patient);
     }
