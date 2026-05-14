@@ -30,6 +30,7 @@ class PatientServiceTest {
 
     @BeforeEach
     void setUp() {
+        #teste
         patient = new Patient("Rafael Klug", "12345678900",
                 LocalDate.of(1995, 3, 10), "rafaeljulioklug@gmail.com", "47999999999");
         patient.setId(1L);
